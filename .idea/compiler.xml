@@ -11,7 +11,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="common" target="1.8" />
+      <module name="common" target="6" />
       <module name="quartz" target="1.8" />
     </bytecodeTargetLevel>
   </component>

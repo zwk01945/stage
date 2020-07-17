@@ -39,6 +39,9 @@ public class ConfigInit {
 
     @Bean(value = "globalConfig")
     public void config() {
+        StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+        StackTraceElement boot = stackTrace[stackTrace.length -1];
+        log.info("当前启动类为:{}",boot.getClassName());
         log.info("项目初始化============================");
         log.info("全局系统配置如下============================");
         log.info("当前系统时间为:{}", DateUtil.getStrByDate(new Date(), DateConstant.YYYY_MM_DD_HH_MM_SS));

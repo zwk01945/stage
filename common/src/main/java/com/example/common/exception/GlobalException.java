@@ -29,8 +29,7 @@ public class GlobalException {
 
     @ExceptionHandler(RuntimeException.class)
     public Object nullPointHandler(RuntimeException e) {
-        return new ResultObject(HttpStatus.INTERNAL_SERVER_ERROR.ordinal());
+        return new ResultObject(HttpStatus.INTERNAL_SERVER_ERROR.value());
     }
-
 
 }
