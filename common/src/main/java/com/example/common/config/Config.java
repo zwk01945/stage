@@ -3,14 +3,17 @@ package com.example.common.config;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.Properties;
+import java.util.Set;
 
 /**
  * ClassName: Config
- * Description: 读取配置文件配置类
- * date: 2020/7/15 14:52<br/>
+ * Description: 读取系统配置文件配置类
+ * date: 2020/7/15 14:52
  *
- * @author zwk<br />
+ * @author zwk
  */
 public class Config {
 
@@ -69,6 +72,11 @@ public class Config {
 
         String property = "";
         try {
+            Set<String> strings = paraProps.stringPropertyNames();
+            Iterator<String> iterator = strings.iterator();
+            while (iterator.hasNext()){
+                System.out.println(iterator.next());
+            }
             property = paraProps.getProperty(paraName);
         } catch (Exception e) {
             e.printStackTrace();

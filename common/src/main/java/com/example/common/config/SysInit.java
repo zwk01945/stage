@@ -21,7 +21,7 @@ import java.util.Date;
  * @author zwk<br />
  */
 @Configuration
-public class ConfigInit {
+public class SysInit {
 
     private static final Logger log = LoggerFactory.getLogger(Config.class);
 
@@ -59,6 +59,7 @@ public class ConfigInit {
                 imageProperties.getServerPath());
         log.info("自定义日志配置如下:");
         log.info("winpath,linuxpath:{},{}", logProperties.getWinPath(),logProperties.getLinuxPath());
+
     }
 
 
