@@ -1,6 +1,6 @@
 package com.example.common.handler;
 
-import com.example.common.config.Config;
+import com.example.common.config.properter.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.HandlerInterceptor;

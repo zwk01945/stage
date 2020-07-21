@@ -1,5 +1,6 @@
 package com.example.common.config;
 
+import com.example.common.config.properter.Config;
 import com.example.common.config.propertie.ImageProperties;
 import com.example.common.config.propertie.LogProperties;
 import com.example.common.config.propertie.UploadProperties;
@@ -8,9 +9,11 @@ import com.example.common.util.date.DateUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.sql.DataSource;
 import java.util.Date;
 
 /**
@@ -21,7 +24,7 @@ import java.util.Date;
  * @author zwk<br />
  */
 @Configuration
-public class SysInit {
+public class SysInit{
 
     private static final Logger log = LoggerFactory.getLogger(Config.class);
 
@@ -59,7 +62,6 @@ public class SysInit {
                 imageProperties.getServerPath());
         log.info("自定义日志配置如下:");
         log.info("winpath,linuxpath:{},{}", logProperties.getWinPath(),logProperties.getLinuxPath());
-
     }
 
 

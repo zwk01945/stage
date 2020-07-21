@@ -22,4 +22,6 @@ public interface ICoustomerService {
     List<CoustomerZt> selectJoin();
 
     IPage<CoustomerZt> selectByPage(Integer start, Integer size);
+
+    long insert(CoustomerZt coustomerZt);
 }

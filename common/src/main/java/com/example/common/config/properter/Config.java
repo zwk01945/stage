@@ -1,9 +1,8 @@
-package com.example.common.config;
+package com.example.common.config.properter;
 
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.Properties;
 import java.util.Set;

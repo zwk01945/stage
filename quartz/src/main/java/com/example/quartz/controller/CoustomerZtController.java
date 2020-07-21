@@ -1,5 +1,9 @@
 package com.example.quartz.controller;
 
+import com.example.common.bean.quartz.CoustomerZt;
+import com.example.common.bean.quartz.IcpCode;
+import com.example.quartz.mapper.IcpCodeMapper;
+import com.example.quartz.service.IcpCodeService;
 import com.example.quartz.service.impl.ICoustomerServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +27,8 @@ public class CoustomerZtController extends BaseController {
 
     @Autowired
     ICoustomerServiceImpl coustomerService;
+    @Autowired
+    IcpCodeService icpCodeService;
 
     @RequestMapping("/q")
     public Object hello () {
@@ -45,4 +51,20 @@ public class CoustomerZtController extends BaseController {
     public Object helloMore (Integer start,Integer size) {
         return coustomerService.selectByPage(start,size);
     }
+    @RequestMapping("/i")
+    public Object helloIcp () {
+        IcpCode code = new IcpCode();
+        code.setId(1);
+        code.setName("测试");
+        CoustomerZt coustomerZt = new CoustomerZt();
+        coustomerZt.setAge(100000000);
+        coustomerZt.setId(0);
+        coustomerZt.setJob("0");
+        coustomerZt.setLocalAddress("0");
+        coustomerZt.setName("0");
+        coustomerZt.setProvinceFlag(0);
+        long insert = icpCodeService.insert(code,coustomerZt);
+        return insert;
+    }
+
 }

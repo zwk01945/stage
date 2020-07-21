@@ -24,6 +24,7 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(new DefenseInterceptor()).addPathPatterns("/**");
     }
 
+
     /**
      * 全局cors跨域解决
      * @param registry

@@ -1,8 +1,9 @@
-package com.example.common.config;
+package com.example.common.config.properter;
 
-import java.io.IOException;
+        import java.io.IOException;
 import java.io.InputStream;
-import java.util.Properties;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * ClassName: DsProperter
@@ -11,16 +12,17 @@ import java.util.Properties;
  *
  * @author zwk
  */
-public class DsProperter {
+public class DsProperter{
 
     public static final String PROPERTY_FILE = "application.properties";
     public static final String PROPERTY_FILE_YAML = "application.yml";
+    public static final String PROPERTIES_START = "spring.datasource.dynamic";
 
     private static DsProperter instance = null;
 
     private static Properties paraProps = new Properties();
 
-    public DsProperter() {
+    private DsProperter() {
 
         InputStream properties = getClass().getResourceAsStream("/" + PROPERTY_FILE);
         InputStream yaml = getClass().getResourceAsStream("/" + PROPERTY_FILE_YAML);
@@ -32,7 +34,7 @@ public class DsProperter {
             }
         } catch (Exception e) {
 
-            System.err.println("Can not read system.properties file!");
+            System.err.println("Can not read application.properties file!");
 
         } finally {
             try {
@@ -74,16 +76,21 @@ public class DsProperter {
         return property;
     }
 
-
-    public Object getObject(String paraName) {
-
-        Object property = null;
+    /**
+     * 返回配置文件下的指定配置文件的所有key
+     * @return
+     */
+    public List<String> getList(String preName) {
+        List<String> collect = null;
         try {
-            property = paraProps.get(paraName);
+            Set<String> strings = paraProps.stringPropertyNames();
+            collect = strings.stream()
+                    .filter(x -> x.startsWith(preName)).collect(Collectors.toList());
+            Collections.sort(collect);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return property;
+        return collect;
     }
 
 }

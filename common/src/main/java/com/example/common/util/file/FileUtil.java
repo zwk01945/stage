@@ -1,6 +1,6 @@
 package com.example.common.util.file;
 
-import com.example.common.config.Config;
+import com.example.common.config.properter.Config;
 import com.example.common.config.propertie.LogProperties;
 import com.example.common.util.date.DateConstant;
 import com.example.common.util.date.DateUtil;
