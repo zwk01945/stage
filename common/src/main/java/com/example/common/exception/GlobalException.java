@@ -33,4 +33,9 @@ public class GlobalException {
         return new ResultObject(HttpStatus.INTERNAL_SERVER_ERROR.value());
     }
 
+    @ExceptionHandler(Exception.class)
+    public Object ExceptionPointHandler(Exception e) {
+        e.printStackTrace();
+        return new ResultObject(HttpStatus.INTERNAL_SERVER_ERROR.value());
+    }
 }
