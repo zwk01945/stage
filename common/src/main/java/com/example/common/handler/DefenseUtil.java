@@ -2,15 +2,26 @@ package com.example.common.handler;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import org.springframework.web.util.HtmlUtils;
 
-
-/**
- *@Author zwk
- *@version
- */
-
+/**************************************************************
+ ***       S  T  A  G  E    多模块依赖项目                    ***
+ **************************************************************
+ *                                                            *
+ *         Project Name : base                                *
+ *                                                            *
+ *         File Name : DefenseUtil.java                       *
+ *                                                            *
+ *         Programmer : Mr.zhang                              *
+ *                                                            *
+ *         Start Date : 2020/7/24 17:28                       *
+ *                                                            *
+ *         Last Update : 2020/7/24 17:28                      *
+ *                                                            *
+ *------------------------------------------------------------*
+ * 功能:                                                       *
+ *   转码工具类                                                 *
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
 public class DefenseUtil {
 
 	public static boolean validateTool(String s){
@@ -33,9 +44,7 @@ public class DefenseUtil {
 		boolean find = mat.find();
 		if(!find){
 			for (String string : split) {
-				if(!val.contains(string)){
-					continue;
-				}else{
+				if(val.contains(string)){
 					System.out.println("特殊字符拦截："+val);
 					return false;
 				}

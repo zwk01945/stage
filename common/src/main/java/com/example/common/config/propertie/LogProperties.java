@@ -8,7 +8,7 @@ import org.springframework.context.annotation.PropertySource;
  * ClassName: LogProperties
  * Description: 自定义日志配置
  * date: 2020/7/16 10:43
- * @author zwk
+ * @author Mr.zhang
  */
 @Configuration
 @ConfigurationProperties(prefix = "log")

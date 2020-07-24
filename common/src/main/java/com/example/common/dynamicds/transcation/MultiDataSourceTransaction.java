@@ -6,18 +6,31 @@ import org.apache.ibatis.logging.LogFactory;
 import org.apache.ibatis.transaction.Transaction;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.jdbc.datasource.DataSourceUtils;
-
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-
 import static org.springframework.util.Assert.notNull;
 
-/**
- * BOOT下多数据源事务实现
- */
+/**************************************************************
+ ***       S  T  A  G  E    多模块依赖项目                    ***
+ **************************************************************
+ *                                                            *
+ *         Project Name : base                                *
+ *                                                            *
+ *         File Name : MultiDataSourceTransaction.java        *
+ *                                                            *
+ *         Programmer : Mr.zhang                              *
+ *                                                            *
+ *         Start Date : 2020/7/24 17:28                       *
+ *                                                            *
+ *         Last Update : 2020/7/24 17:28                      *
+ *                                                            *
+ *------------------------------------------------------------*
+ * 功能:                                                       *
+ *   多数据源事务的配置                                          *
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
 public class MultiDataSourceTransaction implements Transaction {
 
     private static final Log LOGGER = LogFactory.getLog(MultiDataSourceTransaction.class);

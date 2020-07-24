@@ -1,4 +1,4 @@
-package com.example.common.config;
+package com.example.common.config.init;
 
 import com.example.common.config.properter.Config;
 import com.example.common.config.propertie.ImageProperties;
@@ -9,20 +9,29 @@ import com.example.common.util.date.DateUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import javax.sql.DataSource;
 import java.util.Date;
 
-/**
- * ClassName: Config <br/>
- * Description: 配置
- * date: 2020/7/15 14:52<br/>
- *
- * @author zwk<br />
- */
+/**************************************************************
+ ***       S  T  A  G  E    多模块依赖项目                    ***
+ **************************************************************
+ *                                                            *
+ *         Project Name : base                                *
+ *                                                            *
+ *         File Name : SysInit.java                           *
+ *                                                            *
+ *         Programmer : Mr.zhang                              *
+ *                                                            *
+ *         Start Date : 2020/7/24 17:28                       *
+ *                                                            *
+ *         Last Update : 2020/7/24 17:28                      *
+ *                                                            *
+ *------------------------------------------------------------*
+ * 功能:                                                 *
+ *   项目初始化系统参数配置，包括日志，服务器信息配置，文件上传配置     *
+ *   图片服务器配置参数                                          *
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
 @Configuration
 public class SysInit{
 
@@ -33,12 +42,23 @@ public class SysInit{
      *  图片服务器   ImageProperties
      *  自定义日志     LogProperties
      **/
+
+    private UploadProperties uploadProperties;
+    private ImageProperties imageProperties;
+    private LogProperties logProperties;
+
     @Autowired
-    UploadProperties uploadProperties;
+    public void setUploadProperties(UploadProperties uploadProperties) {
+        this.uploadProperties = uploadProperties;
+    }
     @Autowired
-    ImageProperties imageProperties;
+    public void setImageProperties(ImageProperties imageProperties) {
+        this.imageProperties = imageProperties;
+    }
     @Autowired
-    LogProperties logProperties;
+    public void setLogProperties(LogProperties logProperties) {
+        this.logProperties = logProperties;
+    }
 
     @Bean(value = "globalConfig")
     public void config() {
@@ -63,6 +83,5 @@ public class SysInit{
         log.info("自定义日志配置如下:");
         log.info("winpath,linuxpath:{},{}", logProperties.getWinPath(),logProperties.getLinuxPath());
     }
-
 
 }

@@ -2,9 +2,8 @@ package com.example.common.bean;
 
 /**
  * ClassName: ResultObject
- * Description:
+ * Description: 统一返回类
  * date: 2020/7/17 10:02
- *
  * @author zwk
  */
 public class ResultObject {

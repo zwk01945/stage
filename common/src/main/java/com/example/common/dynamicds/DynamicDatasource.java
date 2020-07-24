@@ -4,10 +4,9 @@ import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 
 /**
  * ClassName: DynamicDatasource
- * Description:
+ * Description: 多数据源类型更新到Spring
  * date: 2020/7/21 13:12
- *
- * @author zwk
+ * @author Mr.zhang
  */
 public class DynamicDatasource extends AbstractRoutingDataSource {
     @Override

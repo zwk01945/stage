@@ -2,18 +2,16 @@ package com.example.common.util.date;
 
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.commons.lang3.time.DateUtils;
-
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
 /**
- * ClassName: DateUtils <br/>
- * Description: <br/>
- * date: 2020/7/15 13:38<br/>
- *
- * @author zwk<br />
+ * ClassName: DateUtils
+ * Description: 日期工具类
+ * date: 2020/7/15 13:38
+ * @author Mr.zhang
  */
 public class DateUtil {
 
@@ -22,7 +20,6 @@ public class DateUtil {
      * 指定日期转为字符串格式
      * @param date 日期
      * @param format 转换格式
-     * @return
      */
     public static String getStrByDate(Date date, String format) {
         return DateFormatUtils.format(date, format);
@@ -56,7 +53,6 @@ public class DateUtil {
      * 查询用“年-周”返回，根据第二参数判断当天是周几，并返回上一周的年-周数，否则为正常的年-周
      * @param date 日期
      * @param changeWeekDay 返回上周数据的周天，用0-6分别表示周日到周六
-     * @return
      */
     public static String getYearWeek(Date date,int changeWeekDay) {
         Calendar calendar = Calendar.getInstance();
@@ -98,8 +94,7 @@ public class DateUtil {
 
     /**
      * 查询用“年-周”返回上周数据
-     * @param date
-     * @return
+     * @param date 上周日期
      * @author lsh
      */
     public static String getYearWeekPrevious(Date date) {
@@ -109,9 +104,7 @@ public class DateUtil {
     }
     /**
      * 获取过去第几天的日期
-     *
-     * @param past
-     * @return
+     * @param past 过去的天数
      */
     public static Date getPastDate(int past) {
         Calendar calendar = Calendar.getInstance();

@@ -12,8 +12,7 @@ import java.io.Serializable;
  * ClassName: IcpCode
  * Description: ICP_CODE
  * date: 2020/7/21 15:25
- *
- * @author zwk
+ * @author Mr.zhang
  */
 @Data
 @EqualsAndHashCode(callSuper = false)

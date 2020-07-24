@@ -4,10 +4,9 @@ import java.lang.annotation.*;
 
 /**
  * ClassName: DS
- * Description:
+ * Description: 切换数据源用到的注解
  * date: 2020/7/21 13:16
- *
- * @author zyl
+ * @author Mr.zhang
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.METHOD})

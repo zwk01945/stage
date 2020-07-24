@@ -3,14 +3,15 @@ package com.example.quartz.service.impl;
 import com.example.common.bean.quartz.CoustomerZt;
 import com.example.common.bean.quartz.IcpCode;
 import com.example.common.dynamicds.DS;
+import com.example.common.util.redis.CacheRedis;
 import com.example.quartz.mapper.IcpCodeMapper;
 import com.example.quartz.service.IcpCodeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
+
 
 /**
  * ClassName: IcpCodeServiceImpl
@@ -30,6 +31,7 @@ public class IcpCodeServiceImpl implements IcpCodeService {
     ICoustomerServiceImpl coustomerService;
 
     @Override
+    @CacheRedis(value = "icp_code",type = "String")
     public List<IcpCode> selectAll() {
         return icpCodeMapper.selectList(null);
     }

@@ -1,26 +1,35 @@
 package com.example.common.config.properter;
 
-        import java.io.IOException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
 import java.util.stream.Collectors;
 
-/**
- * ClassName: DsProperter
- * Description: 数据源配置文件
- * date: 2020/7/20 16:53
- *
- * @author zwk
- */
+/**************************************************************
+ ***       S  T  A  G  E    多模块依赖项目                    ***
+ **************************************************************
+ *                                                            *
+ *         Project Name : base                                *
+ *                                                            *
+ *         File Name : DsProperter.java                       *
+ *                                                            *
+ *         Programmer : Mr.zhang                              *
+ *                                                            *
+ *         Start Date : 2020/7/24 17:28                       *
+ *                                                            *
+ *         Last Update : 2020/7/24 17:28                      *
+ *                                                            *
+ *------------------------------------------------------------*
+ * 功能:                                                       *
+ *   每个模块下配置文件Application.properties或者Yaml文件的读取类   *
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
 public class DsProperter{
 
     public static final String PROPERTY_FILE = "application.properties";
     public static final String PROPERTY_FILE_YAML = "application.yml";
     public static final String PROPERTIES_START = "spring.datasource.dynamic";
-
     private static DsProperter instance = null;
-
-    private static Properties paraProps = new Properties();
+    private static final Properties paraProps = new Properties();
 
     private DsProperter() {
 
@@ -38,6 +47,7 @@ public class DsProperter{
 
         } finally {
             try {
+                assert properties != null;
                 properties.close();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -47,8 +57,6 @@ public class DsProperter{
 
     /**
      * 获取实例
-     *
-     * @return
      */
     public static synchronized DsProperter getInstance() {
 
@@ -61,9 +69,7 @@ public class DsProperter{
 
     /**
      * 获取属性
-     *
-     * @param paraName
-     * @return
+     * @param paraName key
      */
     public String getProperty(String paraName) {
 
@@ -78,7 +84,6 @@ public class DsProperter{
 
     /**
      * 返回配置文件下的指定配置文件的所有key
-     * @return
      */
     public List<String> getList(String preName) {
         List<String> collect = null;

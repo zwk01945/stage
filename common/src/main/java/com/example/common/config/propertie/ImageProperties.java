@@ -1,16 +1,14 @@
 package com.example.common.config.propertie;
 
-
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
 /**
- * ClassName: ImageProperties <br/>
- * Description: <br/>
- * date: 2020/7/15 15:27<br/>
- *
- * @author zwk<br />
+ * ClassName: ImageProperties
+ * Description: 图片服务器读取类
+ * date: 2020/7/15 15:27
+ * @author Mr.zhang
  */
 @Configuration
 @ConfigurationProperties(prefix = "image")

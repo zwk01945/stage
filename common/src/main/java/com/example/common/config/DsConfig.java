@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.core.MybatisConfiguration;
 import com.baomidou.mybatisplus.core.MybatisXMLLanguageDriver;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
-import com.baomidou.mybatisplus.extension.plugins.pagination.dialects.MySqlDialect;
 import com.baomidou.mybatisplus.extension.plugins.pagination.optimize.JsqlParserCountOptimize;
 import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
 import com.example.common.config.properter.DsProperter;
@@ -17,7 +16,6 @@ import com.zaxxer.hikari.HikariDataSource;
 import org.apache.ibatis.mapping.DatabaseIdProvider;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
-import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,41 +28,65 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
-
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import static com.example.common.config.properter.DsProperter.PROPERTIES_START;
 
-
-/**
- * ClassName: DsConfig
- * Description:  动态多数据源配置文件
- * date: 2020/7/21 13:37
- *
- * @author zwk
- */
+/**************************************************************
+ ***       S  T  A  G  E    多模块依赖项目                    ***
+ **************************************************************
+ *                                                            *
+ *         Project Name : base                                *
+ *                                                            *
+ *         File Name : DsConfig.java                          *
+ *                                                            *
+ *         Programmer : Mr.zhang                              *
+ *                                                            *
+ *         Start Date : 2020/7/24 17:28                       *
+ *                                                            *
+ *         Last Update : 2020/7/24 17:28                      *
+ *                                                            *
+ *------------------------------------------------------------*
+ * 功能:                                                       *
+ *   多数据源配置                                               *
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
 @Configuration
 public class DsConfig{
 
     private static final Logger log = LoggerFactory.getLogger(DsConfig.class);
 
-    @Autowired
+
     private MybatisPlusProperties properties;
 
-    @Autowired
+
     private ResourceLoader resourceLoader = new DefaultResourceLoader();
 
-    @Autowired(required = false)
+
     private Interceptor[] interceptors;
 
-    @Autowired(required = false)
+
     private DatabaseIdProvider databaseIdProvider;
 
+    @Autowired
+    public void setProperties(MybatisPlusProperties properties) {
+        this.properties = properties;
+    }
+    @Autowired
+    public void setResourceLoader(ResourceLoader resourceLoader) {
+        this.resourceLoader = resourceLoader;
+    }
+    @Autowired(required = false)
+    public void setInterceptors(Interceptor[] interceptors) {
+        this.interceptors = interceptors;
+    }
+    @Autowired(required = false)
+    public void setDatabaseIdProvider(DatabaseIdProvider databaseIdProvider) {
+        this.databaseIdProvider = databaseIdProvider;
+    }
 
     @Bean
     public PaginationInterceptor paginationInterceptor() {
@@ -77,9 +99,6 @@ public class DsConfig{
         paginationInterceptor.setCountSqlParser(new JsqlParserCountOptimize(true));
         return paginationInterceptor;
     }
-
-
-
 
 
 

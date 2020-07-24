@@ -1,11 +1,10 @@
 package com.example.common.config.propertie;
 
 /**
- * ClassName: Ds
- * Description:
+ * ClassName: DsProperties
+ * Description:  数据连接条件
  * date: 2020/7/21 12:35
- *
- * @author zyl
+ * @author Mr.zhang
  */
 public class DsProperties {
     private String dbName;

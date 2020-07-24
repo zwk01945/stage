@@ -2,11 +2,10 @@ package com.example.common.util.date;
 
 
 /**
- * ClassName: DateConstant <br/>
+ * ClassName: DateConstant
  * Description: 日期常量类
- * date: 2020/7/15 13:19<br/>
- *
- * @author zwk<br />
+ * date: 2020/7/15 13:19
+ * @author Mr.zhang
  */
 public class DateConstant {
 

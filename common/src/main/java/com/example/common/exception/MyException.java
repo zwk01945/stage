@@ -2,10 +2,9 @@ package com.example.common.exception;
 
 /**
  * ClassName: MyException
- * Description:
+ * Description: 自定义异常
  * date: 2020/7/17 9:36
- *
- * @author zwk
+ * @author Mr.zhang
  */
 public class MyException extends RuntimeException{
 

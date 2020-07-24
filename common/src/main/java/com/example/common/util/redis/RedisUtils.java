@@ -3,7 +3,6 @@ package com.example.common.util.redis;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -84,4 +83,7 @@ public class RedisUtils {
     }
 
 
+    public static Object getValue(String key) {
+      return  redisTemplate.opsForValue().get(key);
+    }
 }

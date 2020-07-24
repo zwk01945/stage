@@ -1,30 +1,35 @@
 package com.example.common.config.properter;
 
-
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Iterator;
 import java.util.Properties;
-import java.util.Set;
 
-/**
- * ClassName: Config
- * Description: 读取系统配置文件配置类
- * date: 2020/7/15 14:52
- *
- * @author zwk
- */
+/**************************************************************
+ ***       S  T  A  G  E    多模块依赖项目                    ***
+ **************************************************************
+ *                                                            *
+ *         Project Name : base                                *
+ *                                                            *
+ *         File Name : Config.java                            *
+ *                                                            *
+ *         Programmer : Mr.zhang                              *
+ *                                                            *
+ *         Start Date : 2020/7/24 17:28                       *
+ *                                                            *
+ *         Last Update : 2020/7/24 17:28                      *
+ *                                                            *
+ *------------------------------------------------------------*
+ * 功能:                                                       *
+ *   系统sys.properties文件的资源读取类                           *
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
 public class Config {
 
 
     public static final String SYS_NAME_WIN = "win";
     public static final String SYS_NAME_LINUX = "linux";
-
     public static final String PROPERTY_FILE = "sys.properties";
-
     private static Config instance = null;
-
-    private static Properties paraProps = new Properties();
+    private static final Properties paraProps = new Properties();
 
     public Config() {
 
@@ -49,8 +54,6 @@ public class Config {
 
     /**
      * 获取实例
-     *
-     * @return
      */
     public static synchronized Config getInstance() {
 
@@ -63,19 +66,11 @@ public class Config {
 
     /**
      * 获取属性
-     *
-     * @param paraName
-     * @return
+     * @param paraName key
      */
     public String getProperty(String paraName) {
-
         String property = "";
         try {
-            Set<String> strings = paraProps.stringPropertyNames();
-            Iterator<String> iterator = strings.iterator();
-            while (iterator.hasNext()){
-                System.out.println(iterator.next());
-            }
             property = paraProps.getProperty(paraName);
         } catch (Exception e) {
             e.printStackTrace();

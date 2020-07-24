@@ -4,13 +4,24 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
-/**
- * ClassName: DataSourceContextHolder
- * Description:
- * date: 2020/7/21 13:12
- *
- * @author zwk
- */
+/**************************************************************
+ ***       S  T  A  G  E    多模块依赖项目                    ***
+ **************************************************************
+ *                                                            *
+ *         Project Name : base                                *
+ *                                                            *
+ *         File Name : DataSourceContextHolder.java           *
+ *                                                            *
+ *         Programmer : Mr.zhang                              *
+ *                                                            *
+ *         Start Date : 2020/7/24 17:28                       *
+ *                                                            *
+ *         Last Update : 2020/7/24 17:28                      *
+ *                                                            *
+ *------------------------------------------------------------*
+ * 功能:                                                       *
+ *   多数据源容器,用于切换当前线程中的数据源                         *
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
 public class DataSourceContextHolder {
     public static Logger logger = LoggerFactory.getLogger(DataSourceContextHolder.class);
     public static final String DEFAULT_DS="master";

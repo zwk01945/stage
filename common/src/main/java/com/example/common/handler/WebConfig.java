@@ -5,18 +5,29 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-/**
- * ClassName: WebConfig
- * Description: mvc扩展
- * date: 2020/7/17 10:43
- * @author zwk
- */
+/**************************************************************
+ ***       S  T  A  G  E    多模块依赖项目                    ***
+ **************************************************************
+ *                                                            *
+ *         Project Name : base                                *
+ *                                                            *
+ *         File Name : GlobalException.java                   *
+ *                                                            *
+ *         Programmer : Mr.zhang                              *
+ *                                                            *
+ *         Start Date : 2020/7/24 17:28                       *
+ *                                                            *
+ *         Last Update : 2020/7/24 17:28                      *
+ *                                                            *
+ *------------------------------------------------------------*
+ * 功能:                                                       *
+ *   全局WEB拦截器/cors等网站拦截器扩展添加                         *
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
     /**
      * 全局拦截器配置
-     * @param registry
      */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
@@ -27,7 +38,6 @@ public class WebConfig implements WebMvcConfigurer {
 
     /**
      * 全局cors跨域解决
-     * @param registry
      */
     @Override
     public void addCorsMappings(CorsRegistry registry) {

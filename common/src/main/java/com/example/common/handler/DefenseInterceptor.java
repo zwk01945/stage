@@ -8,17 +8,30 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
-import java.util.Iterator;
+import java.nio.charset.StandardCharsets;
 
-/**
- * @escription 全局拦截字符异常处理
- * @author zwk
- * @version 2020年7月16日 17点36分
- */
+/**************************************************************
+ ***       S  T  A  G  E    多模块依赖项目                    ***
+ **************************************************************
+ *                                                            *
+ *         Project Name : base                                *
+ *                                                            *
+ *         File Name : DefenseInterceptor.java                *
+ *                                                            *
+ *         Programmer : Mr.zhang                              *
+ *                                                            *
+ *         Start Date : 2020/7/24 17:28                       *
+ *                                                            *
+ *         Last Update : 2020/7/24 17:28                      *
+ *                                                            *
+ *------------------------------------------------------------*
+ * 功能:                                                       *
+ *   全局字符过滤器                                              *
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
 public class DefenseInterceptor implements HandlerInterceptor {
 
 
-	private static Logger logger = LoggerFactory.getLogger(DefenseInterceptor.class);
+	private static final Logger logger = LoggerFactory.getLogger(DefenseInterceptor.class);
 	public static final String origins = Config.getInstance().getProperty("origins");
 
 	@Override
@@ -37,23 +50,17 @@ public class DefenseInterceptor implements HandlerInterceptor {
 		if (request.getMethod().equalsIgnoreCase("post")) {
 			request.setCharacterEncoding("utf-8");
 		} else {
-			@SuppressWarnings("rawtypes")
-			Iterator its = request.getParameterMap().values().iterator();
-			while (its.hasNext()) {
-				String[] params = (String[]) its.next();
+			for (String[] params : request.getParameterMap().values()) {
 				int len = params.length;
 				for (int i = 0; i < len; i++) {
-					params[i] = new String(params[i].getBytes("utf-8"), "utf-8");
+					params[i] = new String(params[i].getBytes(StandardCharsets.UTF_8), StandardCharsets.UTF_8);
 				}
 			}
 		}
 		// 过滤客户端提交表单中特殊字符
-		@SuppressWarnings("rawtypes")
-		Iterator its = request.getParameterMap().values().iterator();
-		while (its.hasNext()) {
-			String[] params = (String[]) its.next();
-			for (int i = 0; i < params.length; i++) {
-				boolean validateTool = DefenseUtil.validateTool(params[i]);
+		for (String[] params : request.getParameterMap().values()) {
+			for (String param : params) {
+				boolean validateTool = DefenseUtil.validateTool(param);
 				if (!validateTool) {
 					response.reset();
 					response.setCharacterEncoding("utf-8");
@@ -61,7 +68,7 @@ public class DefenseInterceptor implements HandlerInterceptor {
 					response.setHeader("Access-Control-Allow-Credentials", "true");
 					PrintWriter out = response.getWriter();
 //					out.println("ERRDATA"+params[i]);
-					out.println("{\"ERRDATA\":\""+params[i]+"\"}");
+					out.println("{\"ERRDATA\":\"" + param + "\"}");
 					out.close();
 					return false;
 				}

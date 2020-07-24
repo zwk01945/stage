@@ -14,13 +14,25 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-/**
- * ClassName: Generator
- * Description: 代码生成器
- * date: 2020/7/20 13:39
- *
- * @author zwk
- */
+/**************************************************************
+ ***       S  T  A  G  E    多模块依赖项目                    ***
+ **************************************************************
+ *                                                            *
+ *         Project Name : base                                *
+ *                                                            *
+ *         File Name : Generator.java                         *
+ *                                                            *
+ *         Programmer : Mr.zhang                              *
+ *                                                            *
+ *         Start Date : 2020/7/24 17:28                       *
+ *                                                            *
+ *         Last Update : 2020/7/24 17:28                      *
+ *                                                            *
+ *------------------------------------------------------------*
+ * 功能:                                                       *
+ *   Mybatis-plus官方的自动生成代码                              *
+ *   可根据console输入的模块和表进行自动生成controller/service/dao  *
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
 public class Generator {
 
     /**
@@ -31,7 +43,7 @@ public class Generator {
     public static String scanner(String tip) {
         Scanner scanner = new Scanner(System.in);
         StringBuilder help = new StringBuilder();
-        help.append("请输入" + tip + "：");
+        help.append("请输入").append(tip).append("：");
         System.out.println(help.toString());
         if (scanner.hasNext()) {
             String ipt = scanner.next();

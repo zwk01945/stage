@@ -1,6 +1,9 @@
 package com.example.quartz.controller;
 
+import com.example.common.bean.quartz.IcpCode;
 import com.example.common.util.redis.RedisUtils;
+import com.example.quartz.service.IcpCodeService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,6 +22,8 @@ import java.util.concurrent.TimeUnit;
 @RequestMapping("/redis")
 public class RedisController {
 
+    @Autowired
+    IcpCodeService icpCodeService;
 
     @RequestMapping("/q")
     public Object putRedis () {
@@ -39,6 +44,9 @@ public class RedisController {
         RedisUtils.redisMapExpire(each,20L, TimeUnit.SECONDS);
         return RedisUtils.getExpireByMap(each);
     }
-
+    @RequestMapping("/c")
+    public Object putRedisCache () {
+        return icpCodeService.selectAll();
+    }
 
 }

@@ -1,16 +1,14 @@
 package com.example.common.config.propertie;
 
-
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
 /**
- * ClassName: SysProperties <br/>
- * Description: 系统配置
- * date: 2020/7/15 14:30<br/>
- *
- * @author zwk
+ * ClassName: SysProperties
+ * Description: 文件系统配置
+ * date: 2020/7/15 14:30
+ * @author Mr.zhang
  */
 @Configuration
 @ConfigurationProperties(prefix = "upload")
