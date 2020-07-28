@@ -1,5 +1,6 @@
 package com.example.common.util.redis;
 
+import com.sun.istack.internal.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
@@ -7,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * ClassName: RedisUtils
@@ -35,7 +37,7 @@ public class RedisUtils {
      * 没有过期时间
      * @param params
      */
-    public static void redisMap(Map<String,String> params){
+    public static void redisMap(@NotNull Map<String,String> params){
         params.forEach((key, value) -> redisTemplate.opsForValue().set(key, value));
     }
 
@@ -86,4 +88,6 @@ public class RedisUtils {
     public static Object getValue(String key) {
       return  redisTemplate.opsForValue().get(key);
     }
+    
+
 }

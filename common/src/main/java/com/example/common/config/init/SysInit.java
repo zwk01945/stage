@@ -4,13 +4,18 @@ import com.example.common.config.properter.Config;
 import com.example.common.config.propertie.ImageProperties;
 import com.example.common.config.propertie.LogProperties;
 import com.example.common.config.propertie.UploadProperties;
+import com.example.common.util.bean.SpringBeanUtils;
 import com.example.common.util.date.DateConstant;
 import com.example.common.util.date.DateUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
+
 import java.util.Date;
 
 /**************************************************************
@@ -32,8 +37,8 @@ import java.util.Date;
  *   项目初始化系统参数配置，包括日志，服务器信息配置，文件上传配置     *
  *   图片服务器配置参数                                          *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
-@Configuration
-public class SysInit{
+@Component
+public class SysInit implements InitializingBean {
 
     private static final Logger log = LoggerFactory.getLogger(Config.class);
 
@@ -60,8 +65,8 @@ public class SysInit{
         this.logProperties = logProperties;
     }
 
-    @Bean(value = "globalConfig")
-    public void config() {
+    @Override
+    public void afterPropertiesSet() throws Exception {
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         StackTraceElement boot = stackTrace[stackTrace.length -1];
         log.info("当前启动类为:{}",boot.getClassName());
@@ -83,5 +88,4 @@ public class SysInit{
         log.info("自定义日志配置如下:");
         log.info("winpath,linuxpath:{},{}", logProperties.getWinPath(),logProperties.getLinuxPath());
     }
-
 }

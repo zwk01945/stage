@@ -13,8 +13,8 @@ import java.util.concurrent.TimeUnit;
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Documented
 public @interface CacheRedis {
-    String value() default "";
-    String type() default "String";
+    Class<?> returnType() default Object.class;
+    String[] value() default {};
     TimeUnit unit() default TimeUnit.SECONDS;
     long time() default -1L;
 }

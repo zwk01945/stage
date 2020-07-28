@@ -2,11 +2,14 @@ package com.example.quartz.init;
 
 import com.alibaba.fastjson.JSON;
 import com.example.common.bean.quartz.IcpCode;
+import com.example.common.util.bean.SpringBeanUtils;
 import com.example.common.util.redis.RedisUtils;
 import com.example.quartz.mapper.IcpCodeMapper;
 import com.example.quartz.service.IcpCodeService;
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -35,7 +38,8 @@ public class RedisInit implements CommandLineRunner {
     public void run(String... args) throws Exception {
         log.info("初始化Quartz热点缓存数据==============");
         List<IcpCode> icpCodes = icpCodeService.selectAll();
-        String icp_code = redisTemplate.opsForValue().get("icp_code");
+        String icp_code = redisTemplate.opsForValue().get("icp_code1");
         log.info("热点缓存数据存放成功:{}",icp_code);
     }
+
 }

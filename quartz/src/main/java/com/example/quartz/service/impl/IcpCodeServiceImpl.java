@@ -31,7 +31,7 @@ public class IcpCodeServiceImpl implements IcpCodeService {
     ICoustomerServiceImpl coustomerService;
 
     @Override
-    @CacheRedis(value = "icp_code",type = "String")
+    @CacheRedis(value = {"icp_code","icp_code1"})
     public List<IcpCode> selectAll() {
         return icpCodeMapper.selectList(null);
     }

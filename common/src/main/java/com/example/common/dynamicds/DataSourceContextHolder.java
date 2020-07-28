@@ -2,6 +2,7 @@ package com.example.common.dynamicds;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.DisposableBean;
 import org.springframework.util.StringUtils;
 
 /**************************************************************
@@ -22,7 +23,7 @@ import org.springframework.util.StringUtils;
  * 功能:                                                       *
  *   多数据源容器,用于切换当前线程中的数据源                         *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
-public class DataSourceContextHolder {
+public class DataSourceContextHolder implements DisposableBean {
     public static Logger logger = LoggerFactory.getLogger(DataSourceContextHolder.class);
     public static final String DEFAULT_DS="master";
     public static final ThreadLocal<String> contextHolder = new ThreadLocal<>();
@@ -40,6 +41,11 @@ public class DataSourceContextHolder {
     }
 
     public static void clearDbType() {
+        contextHolder.remove();
+    }
+
+    @Override
+    public void destroy() throws Exception {
         contextHolder.remove();
     }
 }

@@ -1,6 +1,7 @@
 package com.example.quartz.controller;
 
 import com.example.common.bean.quartz.IcpCode;
+import com.example.common.util.bean.SpringBeanUtils;
 import com.example.common.util.redis.RedisUtils;
 import com.example.quartz.service.IcpCodeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +47,8 @@ public class RedisController {
     }
     @RequestMapping("/c")
     public Object putRedisCache () {
+        String applicationName = SpringBeanUtils.getContext().getApplicationName();
+        System.out.println(applicationName);
         return icpCodeService.selectAll();
     }
 

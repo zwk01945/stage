@@ -1,5 +1,8 @@
 package com.example.common.config.propertie;
 
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.config.BeanPostProcessor;
+
 /**
  * ClassName: DsProperties
  * Description:  数据连接条件
