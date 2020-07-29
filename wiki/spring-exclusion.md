@@ -49,5 +49,17 @@
         }
     }
 五、`BeanPostProcess` <br>
-    每个bean实例化前后执行
-         
+    每个bean实例化前后执行<br>
+六、`AbstractRoutingDataSource`<br>
+    动态数据源切换数据源
+七、WebMvcConfigurer(SpringBoot对webmvc的扩展)<br>
+
+    addResourceHandlers 映射请求静态资源
+    addInterceptors  添加拦截器
+    addCorsMappings  配置跨域请求
+    addViewControllers  配置视图控制器
+    addFormatters   请求参数的格式转换比如日期
+    configureMessageConverters 消息转换器
+    configureViewResolvers    配置视图转换器
+    
+    

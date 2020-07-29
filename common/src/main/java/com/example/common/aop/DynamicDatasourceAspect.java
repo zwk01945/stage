@@ -1,5 +1,7 @@
-package com.example.common.dynamicds;
+package com.example.common.aop;
 
+import com.example.common.aop.annotation.DS;
+import com.example.common.dynamicds.DataSourceContextHolder;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
@@ -7,8 +9,6 @@ import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import java.lang.reflect.Method;
@@ -42,7 +42,7 @@ public class DynamicDatasourceAspect {
 
     public static Logger logger = LoggerFactory.getLogger(DynamicDatasourceAspect.class);
 
-    @Before("@within(com.example.common.dynamicds.DS) || @annotation(com.example.common.dynamicds.DS)")
+    @Before("@within(com.example.common.aop.annotation.DS) || @annotation(com.example.common.aop.annotation.DS)")
     public void beforeSwitchDS(JoinPoint point) {
         logger.info("进去aspect切面");
         //获取需要访问的类的Class
@@ -68,7 +68,7 @@ public class DynamicDatasourceAspect {
         DataSourceContextHolder.setDbType(dataSource);
     }
 
-    @After("@within(com.example.common.dynamicds.DS) || @annotation(com.example.common.dynamicds.DS)")
+    @After("@within(com.example.common.aop.annotation.DS) || @annotation(com.example.common.aop.annotation.DS)")
     public void afterSwitchDS (JoinPoint point) {
         DataSourceContextHolder.clearDbType();
         logger.info("数据源移除成功");

@@ -1,4 +1,4 @@
-package com.example.common.util.redis;
+package com.example.common.aop.annotation;
 
 import java.lang.annotation.*;
 import java.util.concurrent.TimeUnit;

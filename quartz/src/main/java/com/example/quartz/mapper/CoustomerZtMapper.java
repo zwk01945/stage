@@ -2,7 +2,6 @@ package com.example.quartz.mapper;
 
 import com.example.common.bean.quartz.CoustomerZt;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.example.common.dynamicds.DS;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

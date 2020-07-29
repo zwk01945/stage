@@ -8,10 +8,12 @@
         <outputRelativeToContentRoot value="true" />
         <module name="common" />
         <module name="quartz" />
+        <module name="msgpush" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="common" target="1.8" />
+      <module name="msgpush" target="1.8" />
       <module name="quartz" target="1.8" />
       <module name="redis" target="1.8" />
     </bytecodeTargetLevel>

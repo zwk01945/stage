@@ -1,6 +1,7 @@
 package com.example.common.handler;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.format.FormatterRegistry;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -26,6 +27,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
+
     /**
      * 全局拦截器配置
      */
@@ -35,6 +37,11 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(new DefenseInterceptor()).addPathPatterns("/**");
     }
 
+
+    @Override
+    public void addFormatters(FormatterRegistry registry) {
+        registry.addFormatter(new DateFormatter());
+    }
 
     /**
      * 全局cors跨域解决
@@ -49,6 +56,5 @@ public class WebConfig implements WebMvcConfigurer {
                 .exposedHeaders("Access-Control-Allow-Origin","Access-Control-Allow-Credentials")
                 .maxAge(3600);
     }
-
 
 }

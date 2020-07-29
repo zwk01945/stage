@@ -1,6 +1,7 @@
-package com.example.common.util.redis;
+package com.example.common.aop;
 
 import com.alibaba.fastjson.JSON;
+import com.example.common.aop.annotation.CacheRedis;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -66,7 +67,7 @@ public class RedisAspect implements InitializingBean {
     }
 
 
-    @Around("@within(com.example.common.util.redis.CacheRedis) || @annotation(com.example.common.util.redis.CacheRedis)")
+    @Around("@within(com.example.common.aop.annotation.CacheRedis) || @annotation(com.example.common.aop.annotation.CacheRedis)")
     public Object beforeSwitchCs(ProceedingJoinPoint point) {
         logger.info("进去redis aspect切面");
         Object o = null;
@@ -115,7 +116,7 @@ public class RedisAspect implements InitializingBean {
 
 
 
-//    @After("@within(com.example.common.util.redis.CacheRedis) || @annotation(com.example.common.util.redis.CacheRedis)")
+//    @After("@within(com.example.common.aop.annotation.CacheRedis) || @annotation(com.example.common.aop.annotation.CacheRedis)")
 //    public void afterSwitchDS (JoinPoint point) {
 //        DataSourceContextHolder.clearDbType();
 //        logger.info("数据源移除成功");

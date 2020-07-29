@@ -1,4 +1,4 @@
-package com.example.quartz.mapper;
+package com.example.msgpush.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.example.common.bean.quartz.IcpCode;

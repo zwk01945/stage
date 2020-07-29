@@ -1,4 +1,4 @@
-package com.example.common.config;
+package com.example.common.config.init;
 
 import com.baomidou.mybatisplus.autoconfigure.MybatisPlusProperties;
 import com.baomidou.mybatisplus.autoconfigure.SpringBootVFS;
@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.pagination.optimize.JsqlParserCountOptimize;
 import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
 import com.example.common.config.properter.DsProperter;
-import com.example.common.config.propertie.DsProperties;
+import com.example.common.bean.DsProperties;
 import com.example.common.dynamicds.DynamicDatasource;
 import com.example.common.dynamicds.transcation.MultiDataSourceTransactionFactory;
 import com.zaxxer.hikari.HikariDataSource;
@@ -161,7 +161,7 @@ public class DsConfig{
 
 
     @Bean("mybatisSqlSessionFactoryBean")
-    public MybatisSqlSessionFactoryBean mybatisSqlSessionFactoryBean() throws IOException, SQLException {
+    public MybatisSqlSessionFactoryBean mybatisSqlSessionFactoryBean() throws SQLException {
         MybatisSqlSessionFactoryBean mybatisPlus = new MybatisSqlSessionFactoryBean();
         mybatisPlus.setDataSource(getDatasoure());
         mybatisPlus.setTransactionFactory(new MultiDataSourceTransactionFactory());
@@ -184,8 +184,12 @@ public class DsConfig{
         mybatisPlus.setMapperLocations(this.properties.resolveMapperLocations());
 // 设置mapper.xml文件的路径
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-        Resource[] resource = resolver.getResources("classpath:mapper/quartz/*.xml");
-        mybatisPlus.setMapperLocations(resource);
+        try {
+            Resource[] resource = resolver.getResources("classpath:mapper/*/*.xml");
+            mybatisPlus.setMapperLocations(resource);
+        } catch (IOException e) {
+            log.info("当前模块下没有使用mapper.xml");
+        }
         return mybatisPlus;
     }
 

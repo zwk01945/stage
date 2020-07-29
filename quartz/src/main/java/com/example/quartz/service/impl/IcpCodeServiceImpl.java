@@ -2,8 +2,8 @@ package com.example.quartz.service.impl;
 
 import com.example.common.bean.quartz.CoustomerZt;
 import com.example.common.bean.quartz.IcpCode;
-import com.example.common.dynamicds.DS;
-import com.example.common.util.redis.CacheRedis;
+import com.example.common.aop.annotation.DS;
+import com.example.common.aop.annotation.CacheRedis;
 import com.example.quartz.mapper.IcpCodeMapper;
 import com.example.quartz.service.IcpCodeService;
 import org.springframework.beans.factory.annotation.Autowired;
