@@ -23,10 +23,6 @@
             <version>0.0.1-SNAPSHOT</version>
             <exclusions>
                 <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-websocket</artifactId>
-                </exclusion>
-                <exclusion>
                     <groupId>com.aliyun</groupId>
                     <artifactId>aliyun-java-sdk-core</artifactId>
                 </exclusion>
