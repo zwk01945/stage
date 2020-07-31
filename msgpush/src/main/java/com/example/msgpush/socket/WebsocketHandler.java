@@ -53,10 +53,10 @@ public class WebsocketHandler extends  SimpleChannelInboundHandler<TextWebSocket
                if (value.getChannelId() == ctx.channel().id()) {
                    logger.info("移除集合中连接,key为:{},channel为:{}",value.getKey(),value.getChannelId());
                    channelInfo.remove(value);
+                   logger.info("channelInfo集合个数为:{}",JSON.toJSONString(channelInfo.size()));
                }
            });
         }
-        logger.info("channelInfo集合数据为:{}",JSON.toJSONString(channelInfo));
         ChannelHandlerPool.channelGroup.remove(ctx.channel());
         logger.info(ctx.channel().id() + "与服务端断开连接，通道关闭！");
         logger.info("剩余连接个数为:{}",ChannelHandlerPool.channelGroup.size());
@@ -86,7 +86,7 @@ public class WebsocketHandler extends  SimpleChannelInboundHandler<TextWebSocket
                 logger.info("服务器收到客户端数据：" +frame.text());
                 sendAllMessage(frame.text());
             }
-        logger.info("channelInfo集合数据为:{}",JSON.toJSONString(channelInfo));
+        logger.info("channelInfo集合个数为:{}",JSON.toJSONString(channelInfo.size()));
         super.channelRead(ctx, msg);
     }
 
