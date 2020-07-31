@@ -1,17 +1,18 @@
 package com.example.msgpush.socket;
 
 import com.alibaba.fastjson.JSON;
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.channel.*;
 import io.netty.channel.group.ChannelGroup;
+import io.netty.channel.group.ChannelMatchers;
 import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.nio.channels.Channel;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.stream.Collectors;
 
 /**************************************************************
  ***       S  T  A  G  E    多模块依赖项目                    ***
@@ -33,43 +34,59 @@ import java.util.Map;
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
 public class WebsocketHandler extends  SimpleChannelInboundHandler<TextWebSocketFrame> {
 
-    private final Logger logger = LoggerFactory.getLogger(WebsocketHandler.class);
+    private final static Logger logger = LoggerFactory.getLogger(WebsocketHandler.class);
+
+    private final static List<ChannelInfo> channelInfo = new CopyOnWriteArrayList<ChannelInfo>();
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        logger.info("与客户端建立连接，通道开启！");
         //添加到channelGroup通道组
         ChannelHandlerPool.channelGroup.add(ctx.channel());
+        logger.info(ctx.channel().id() + "与服务端建立连接，通道开启！");
+        logger.info("剩余连接个数为:{}",ChannelHandlerPool.channelGroup.size());
     }
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        logger.info("与客户端断开连接，通道关闭！");
-        //添加到channelGroup 通道组
+        if (channelInfo.size() > 0) {
+           channelInfo.forEach(value -> {
+               if (value.getChannelId() == ctx.channel().id()) {
+                   logger.info("移除集合中连接,key为:{},channel为:{}",value.getKey(),value.getChannelId());
+                   channelInfo.remove(value);
+               }
+           });
+        }
+        logger.info("channelInfo集合数据为:{}",JSON.toJSONString(channelInfo));
         ChannelHandlerPool.channelGroup.remove(ctx.channel());
+        logger.info(ctx.channel().id() + "与服务端断开连接，通道关闭！");
+        logger.info("剩余连接个数为:{}",ChannelHandlerPool.channelGroup.size());
     }
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        //首次连接是FullHttpRequest，处理参数
-        if (msg instanceof FullHttpRequest) {
-            FullHttpRequest request = (FullHttpRequest) msg;
-            String uri = request.uri();
-            Map<String,String> paramMap=getUrlParams(uri);
-            logger.info("接收到的参数是："+ JSON.toJSONString(paramMap));
-            //如果url包含参数，需要处理
-            if(uri.contains("?")){
-                String newUri=uri.substring(0,uri.indexOf("?"));
-                logger.info("截取后的Uri为:{}",newUri);
-                request.setUri(newUri);
+            //首次连接是FullHttpRequest，处理参数
+            final ChannelId id = ctx.channel().id();
+            if (msg instanceof FullHttpRequest) {
+                logger.info("首次连接,当前连接点ChannelId为:{}",id);
+                FullHttpRequest request = (FullHttpRequest) msg;
+                String uri = request.uri();
+                Map<String,String> paramMap=getUrlParams(uri);
+                logger.info("接收到的参数是："+ JSON.toJSONString(paramMap));
+                if (paramMap.size() >0)
+                    channelInfo.add(new ChannelInfo(paramMap.get("name"),id));
+                //如果url包含参数，需要处理
+                if(uri.contains("?")){
+                    String newUri=uri.substring(0,uri.indexOf("?"));
+                    logger.info("截取后的Uri为:{}",newUri);
+                    request.setUri(newUri);
+                }
+            }else if(msg instanceof TextWebSocketFrame){
+                //正常的TEXT消息类型
+                TextWebSocketFrame frame=(TextWebSocketFrame)msg;
+                logger.info("服务器收到客户端数据：" +frame.text());
+                sendAllMessage(frame.text());
             }
-
-        }else if(msg instanceof TextWebSocketFrame){
-            //正常的TEXT消息类型
-            TextWebSocketFrame frame=(TextWebSocketFrame)msg;
-            logger.info("服务器收到客户端数据：" +frame.text());
-            sendAllMessage(frame.text());
-        }
+        logger.info("channelInfo集合数据为:{}",JSON.toJSONString(channelInfo));
         super.channelRead(ctx, msg);
     }
 
@@ -78,10 +95,37 @@ public class WebsocketHandler extends  SimpleChannelInboundHandler<TextWebSocket
 
     }
 
-    private void sendAllMessage(String message){
+
+
+    /**
+     * 广播发送
+     * @param message
+     */
+    public static void sendAllMessage(String message){
         //收到信息后，群发给所有channel
         final ChannelGroup channelGroup = ChannelHandlerPool.channelGroup;
         channelGroup.writeAndFlush( new TextWebSocketFrame(message));
+    }
+
+    /**
+     * 单独推送
+     * @param name
+     * @param message
+     */
+    public synchronized static void sendMessage(String name,String message) throws Exception{
+        final ChannelGroup channelGroup = ChannelHandlerPool.channelGroup;
+        List<ChannelInfo> collect = channelInfo.stream().filter(value -> value.getKey().equals(name)).collect(Collectors.toList());
+        if (collect.size() == 0) throw new RuntimeException("请先建立连接.....");
+            try {
+                collect.forEach(x -> {
+                    Channel channel = channelGroup.find(x.getChannelId());
+                    if (channel == null) throw new RuntimeException("请先建立连接.....");
+                    channelGroup.writeAndFlush( new TextWebSocketFrame(message), ChannelMatchers.is(channel));
+                    logger.info("服务器主动推送消息给: {},推送消息为:{}",name,message);
+                });
+            }catch (Exception e) {
+                throw new RuntimeException("请先建立连接.....");
+            }
     }
 
     private static Map<String,String> getUrlParams(String url){

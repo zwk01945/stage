@@ -5,7 +5,9 @@ import com.example.common.controller.BaseController;
 import com.example.common.util.msg.QueryParam;
 import com.example.common.util.msg.QueryParamBatch;
 import com.example.common.util.msg.SendSmsCode;
+import com.example.msgpush.socket.WebsocketHandler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.HashMap;
@@ -65,4 +67,9 @@ public class MsgController extends BaseController {
         return sendSmsCode.batchSend(queryParam);
     }
 
+
+    @RequestMapping("/a/{name}/{msg}")
+    public void socket (@PathVariable("name") String name,@PathVariable("msg") String message) throws Exception {
+            WebsocketHandler.sendMessage(name,message);
+    }
 }
