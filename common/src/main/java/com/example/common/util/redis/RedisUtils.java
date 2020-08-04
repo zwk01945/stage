@@ -24,7 +24,7 @@ public class RedisUtils {
         return redisTemplate;
     }
 
-    @Autowired(required = true)
+    @Autowired(required = false)
     public void setRedisTemplate(StringRedisTemplate redisTemplate) {
         RedisUtils.redisTemplate = redisTemplate;
         RedisUtils.redisTemplate.setEnableTransactionSupport(true);

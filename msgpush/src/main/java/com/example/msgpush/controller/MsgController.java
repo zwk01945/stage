@@ -33,21 +33,21 @@ public class MsgController extends BaseController {
         this.sendSmsCode = sendSmsCode;
     }
 
-    @RequestMapping("/s")
-    public Object send () {
+    @RequestMapping("/s/{phone}")
+    public Object send (@PathVariable("phone") String phone) {
         Map<String,Object> param = new HashMap<>();
         String code = UUID.randomUUID().toString().substring(0, 5).toUpperCase();
         param.put("code",code);
         QueryParam queryParam = new QueryParam();
-        queryParam.setPhoneNumber("13132256175");
+        queryParam.setPhoneNumber(phone);
         queryParam.setTemplateParam(param);
        return sendSmsCode.send(queryParam);
     }
 
-    @RequestMapping("/q")
-    public Object query () {
+    @RequestMapping("/q/{phone}")
+    public Object query (@PathVariable("phone") String phone) {
         QueryParam queryParam = new QueryParam();
-        queryParam.setPhoneNumber("13132256175");
+        queryParam.setPhoneNumber(phone);
         queryParam.setCurrentPage("1");
         queryParam.setPageSize("10");
         queryParam.setSendDate("20200730");

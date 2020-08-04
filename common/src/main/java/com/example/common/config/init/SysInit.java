@@ -3,6 +3,7 @@ package com.example.common.config.init;
 import com.example.common.config.properter.Config;
 import com.example.common.config.propertie.ImageProperties;
 import com.example.common.config.propertie.LogProperties;
+import com.example.common.config.propertie.MinioProperties;
 import com.example.common.config.propertie.UploadProperties;
 import com.example.common.util.bean.SpringBeanUtils;
 import com.example.common.util.date.DateConstant;
@@ -51,6 +52,7 @@ public class SysInit implements InitializingBean {
     private UploadProperties uploadProperties;
     private ImageProperties imageProperties;
     private LogProperties logProperties;
+    private MinioProperties minioProperties;
 
     @Autowired
     public void setUploadProperties(UploadProperties uploadProperties) {
@@ -63,6 +65,10 @@ public class SysInit implements InitializingBean {
     @Autowired
     public void setLogProperties(LogProperties logProperties) {
         this.logProperties = logProperties;
+    }
+    @Autowired
+    public void setMinioProperties(MinioProperties minioProperties) {
+        this.minioProperties = minioProperties;
     }
 
     @Override
@@ -87,5 +93,6 @@ public class SysInit implements InitializingBean {
                 imageProperties.getServerPath());
         log.info("自定义日志配置如下:");
         log.info("winpath,linuxpath:{},{}", logProperties.getWinPath(),logProperties.getLinuxPath());
+        log.info("图片文件服务器:{},{},{}",minioProperties.getEndPoint(),minioProperties.getAccessKey(),minioProperties.getSecretKey());
     }
 }

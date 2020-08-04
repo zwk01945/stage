@@ -9,6 +9,7 @@
         <option value="$PROJECT_DIR$/common/pom.xml" />
         <option value="$PROJECT_DIR$/quartz/pom.xml" />
         <option value="$PROJECT_DIR$/msgpush/pom.xml" />
+        <option value="$PROJECT_DIR$/minio/pom.xml" />
       </list>
     </option>
   </component>

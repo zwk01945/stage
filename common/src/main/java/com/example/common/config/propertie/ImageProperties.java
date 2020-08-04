@@ -15,10 +15,6 @@ import org.springframework.context.annotation.PropertySource;
 @PropertySource(value = "classpath:sys.properties")
 public class ImageProperties {
 
-//    public static  String serverIp = Config.getInstance().getProperty("image.serverIp");
-//    public static  String serverPort = Config.getInstance().getProperty("image.serverPort");
-//    public static  String serverPath = Config.getInstance().getProperty("image.serverPath");
-
     public   String serverIp;
     public   String serverPort;
     public   String serverPath;

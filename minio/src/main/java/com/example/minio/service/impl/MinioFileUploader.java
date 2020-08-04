@@ -1,0 +1,162 @@
+package com.example.minio.service.impl;
+
+import com.alibaba.fastjson.JSON;
+import com.example.common.bean.PolicyType;
+import com.example.common.config.propertie.ImageProperties;
+import com.example.minio.service.ApiUpload;
+import io.minio.*;
+import io.minio.errors.*;
+import io.minio.messages.Item;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.io.ByteArrayInputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.util.Iterator;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
+/**************************************************************
+ ***       S  T  A  G  E    多模块依赖项目                    ***
+ **************************************************************
+ *                                                            *
+ *         Project Name : base                                *
+ *                                                            *
+ *         File Name : MinioFileUploader.java                 *
+ *                                                            *
+ *         Programmer : Mr.zhang                              *
+ *                                                            *
+ *         Start Date : 2020/8/3 9:35                       *
+ *                                                            *
+ *         Last Update : 2020/8/3 9:35                      *
+ *                                                            *
+ *------------------------------------------------------------*
+ * Functions:                                                 *
+ *   minio 客户端                                              *
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
+@Service("apiUpload")
+public class MinioFileUploader implements ApiUpload {
+
+    private final Logger logger = LoggerFactory.getLogger(MinioFileUploader.class);
+
+    ImageProperties imageProperties;
+
+    MinioClient minioClient;
+
+    public Lock lock = new ReentrantLock();
+
+    @Autowired
+    public void setImageProperties(ImageProperties imageProperties) {
+        this.imageProperties = imageProperties;
+    }
+
+    @Autowired
+    public void setMinioClient(MinioClient minioClient) {
+        this.minioClient = minioClient;
+    }
+
+    @Override
+    public void download(String filePath, String bucket, String objName) {
+        try {
+            minioClient.downloadObject(
+                    DownloadObjectArgs.builder()
+                            .bucket(bucket)
+                            .object(objName)
+                            .filename(filePath)
+                            .build());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public boolean upload(String filePath, String bucket, String objName,String contentType) {
+        boolean process = false;
+
+        try {
+            lock.lock();
+            InputStream inputStream = new FileInputStream(filePath);
+            boolean isExist = minioClient.bucketExists(BucketExistsArgs.builder().bucket(bucket).build());
+            if (isExist){
+                logger.info("重复的bucket存在,覆盖操作");
+            }else {
+                minioClient.makeBucket(MakeBucketArgs.builder()
+                        .bucket(bucket).build());
+                logger.info("添加新的bucket到服务器,key为:{}",bucket);
+                logger.info("判断是否创建子目录.....");
+            }
+            process = reUpload(bucket,objName,inputStream,contentType);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            lock.unlock();
+        }
+        return process;
+    }
+
+    @Override
+    public InputStream read(String bucket, String objName) {
+        InputStream stream = null;
+        try {
+            stream = minioClient.getObject(
+                    GetObjectArgs.builder()
+                            .bucket(bucket)
+                            .object(objName)
+                            .build());
+            //读到流
+        }catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            if (stream != null) {
+                try {
+                    stream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return stream;
+    }
+
+
+    public String getUri(String bucket, String objName) {
+        String objectUrl = null;
+        try {
+            objectUrl = minioClient.getObjectUrl(bucket, objName);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return objectUrl;
+    }
+
+
+    private boolean reUpload (String bucket,String objName,InputStream inputStream,String contentType) throws Exception {
+
+        String[] split = objName.split("/");
+        if (objName.endsWith("/")) {
+            minioClient.putObject(
+                    PutObjectArgs.builder().bucket(bucket).object(objName).stream(
+                            new ByteArrayInputStream(new byte[] {}), 0, -1).build());
+            logger.info("只创建目录.....成功");
+            return true;
+        } else if (split.length > 1){
+            String dir = objName.substring(0,objName.lastIndexOf("/") + 1);
+            minioClient.putObject(
+                    PutObjectArgs.builder().bucket(bucket).object(dir).stream(
+                            new ByteArrayInputStream(new byte[] {}), 0, -1).build());
+            logger.info("创建目录并存放至该目录下.....成功");
+        }
+        minioClient.putObject(PutObjectArgs.builder().bucket(bucket).object(objName).stream(
+                inputStream, -1, 10485760).contentType(contentType).build());
+        return true;
+    }
+
+
+
+}
