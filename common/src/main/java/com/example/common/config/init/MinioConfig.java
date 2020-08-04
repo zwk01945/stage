@@ -6,27 +6,16 @@ import com.example.common.config.propertie.MinioProperties;
 import com.example.common.util.file.FileUtil;
 import io.minio.MinioClient;
 import io.minio.SetBucketPolicyArgs;
-import io.minio.errors.*;
 import io.minio.messages.Bucket;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.util.StringUtils;
-
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.nio.charset.Charset;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+
 
 /**************************************************************
  ***       S  T  A  G  E    多模块依赖项目                    ***
