@@ -74,4 +74,27 @@ public class MinioController extends BaseController {
        return apiUpload.getUri(bucket, objName);
     }
 
+
+    @RequestMapping(value = "/obj")
+    public ResultObject uploadByObject(@RequestParam("path") String filePath,
+                               @RequestParam("bucket") String bucket,
+                               @RequestParam("obj") String objName,
+                               HttpServletRequest request) {
+        String contentType = request.getContentType();
+        boolean file = StringUtils.isEmpty(filePath);
+        boolean bkt = StringUtils.isEmpty(bucket);
+        boolean obj = StringUtils.isEmpty(objName);
+        boolean cty = StringUtils.isEmpty(contentType);
+        if (file || bkt || obj || cty) return new ResultObject(HttpStatus.INTERNAL_SERVER_ERROR.value());
+        boolean upload = apiUpload.uploadByObject(filePath, bucket, objName,contentType);
+        return new ResultObject(HttpStatus.OK.value(),String.valueOf(upload),upload);
+    }
+
+    @RequestMapping(value = "/remove")
+    public ResultObject removeObject(@RequestParam("bucket") String bucket,
+                      @RequestParam("obj") String objName) {
+        apiUpload.removeObject(bucket, objName);
+        return new ResultObject(HttpStatus.OK.value());
+    }
+
 }

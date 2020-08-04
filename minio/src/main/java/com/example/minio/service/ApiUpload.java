@@ -24,9 +24,15 @@ public interface ApiUpload {
 
     boolean upload(String filePath,String bucket,String objName,String contentType);
 
+    boolean uploadByObject(String filePath,String bucket,String objName,String contentType);
+
     InputStream  read(String bucket, String objName);
 
     void  download(String filePath, String bucket, String objName);
 
     String getUri(String bucket, String objName);
+
+    void removeBucket(String bucket);
+
+    void removeObject(String bucket,String objName);
 }

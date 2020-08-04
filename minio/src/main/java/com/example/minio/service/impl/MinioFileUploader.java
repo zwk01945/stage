@@ -2,24 +2,17 @@ package com.example.minio.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.example.common.bean.PolicyType;
 import com.example.common.config.propertie.ImageProperties;
 import com.example.common.config.propertie.MinioProperties;
 import com.example.common.util.file.FileUtil;
 import com.example.minio.service.ApiUpload;
 import io.minio.*;
-import io.minio.errors.*;
-import io.minio.messages.Item;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.io.*;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.util.Iterator;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -87,7 +80,6 @@ public class MinioFileUploader implements ApiUpload {
     @Override
     public boolean upload(String filePath, String bucket, String objName,String contentType) {
         boolean process = false;
-
         try {
             lock.lock();
             InputStream inputStream = new FileInputStream(filePath);
@@ -104,6 +96,38 @@ public class MinioFileUploader implements ApiUpload {
             process = reUpload(bucket,objName,inputStream,contentType);
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            lock.unlock();
+        }
+        return process;
+    }
+
+    @Override
+    public boolean uploadByObject(String filePath, String bucket, String objName, String contentType) {
+
+        boolean process = false;
+        try {
+            lock.lock();
+            boolean isExist = minioClient.bucketExists(BucketExistsArgs.builder().bucket(bucket).build());
+            if (isExist){
+                logger.info("重复的bucket存在,覆盖操作");
+            }else {
+                minioClient.makeBucket(MakeBucketArgs.builder()
+                        .bucket(bucket).build());
+                logger.info("添加新的bucket到服务器,key为:{}",bucket);
+                setDefaultPolicy(bucket);
+            }
+            minioClient.uploadObject(
+                    UploadObjectArgs.builder()
+                            .bucket(bucket)
+                            .object(objName)
+                            .filename(filePath)
+                            .contentType(contentType)
+                            .build());
+            process = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            removeBucket(bucket);
         } finally {
             lock.unlock();
         }
@@ -144,6 +168,32 @@ public class MinioFileUploader implements ApiUpload {
         return objectUrl;
     }
 
+    @Override
+    public void removeBucket(String bucket) {
+        try {
+            boolean isExist = minioClient.bucketExists(BucketExistsArgs.builder().bucket(bucket).build());
+            if (isExist) {
+                logger.info("删除已经创建的bucket");
+                minioClient.removeBucket(RemoveBucketArgs.builder().bucket(bucket).build());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void removeObject(String bucket, String objName) {
+        try {
+            lock.lock();
+            minioClient.removeObject(
+                    RemoveObjectArgs.builder().bucket(bucket).object(objName).build());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            lock.unlock();
+        }
+    }
+
     private boolean reUpload (String bucket,String objName,InputStream inputStream,String contentType) throws Exception {
 
         String[] split = objName.split("/");
@@ -177,5 +227,6 @@ public class MinioFileUploader implements ApiUpload {
             logger.info("bucket --->" + bucket + "默认只读权限设置完成");
         }
     }
+
 
 }
