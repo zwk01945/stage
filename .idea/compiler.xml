@@ -6,6 +6,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="graphql" />
         <module name="common" />
         <module name="minio" />
         <module name="quartz" />
@@ -14,6 +15,7 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="common" target="1.8" />
+      <module name="graphql" target="1.8" />
       <module name="minio" target="1.8" />
       <module name="msgpush" target="1.8" />
       <module name="quartz" target="1.8" />
