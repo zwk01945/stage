@@ -1,0 +1,4 @@
+type Query{
+    icps:[ICPCODE],
+    icp(id:Int): ICPCODE
+}

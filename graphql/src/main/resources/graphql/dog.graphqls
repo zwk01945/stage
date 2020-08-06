@@ -1,0 +1,4 @@
+type ICPCODE{
+    id: Int,
+    name: String
+}
